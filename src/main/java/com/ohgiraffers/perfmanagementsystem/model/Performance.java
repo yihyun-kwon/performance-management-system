@@ -34,9 +34,23 @@ public class Performance {
         this.price = price;
     }
 
+    public Performance(String customerName, String prefTitle, Category category, LocalDate viewDate, LocalTime viewTime, int ageRating, int price) {
+        this.customerName = customerName;
+        this.prefTitle = prefTitle;
+        this.category = category;
+        this.viewDate = viewDate;
+        this.viewTime = viewTime;
+        this.ageRating = ageRating;
+        this.price = price;
+    }
+
     // 예매 번호를 반환한다.
     public int getReservationId() {
         return reservationId;
+    }
+
+    public void setReservationId(int reservationId) {
+        this.reservationId = reservationId;
     }
 
     // 예매자 이름을 반환한다.
