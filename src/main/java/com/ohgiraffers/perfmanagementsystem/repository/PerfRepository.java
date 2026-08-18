@@ -8,6 +8,7 @@ import java.time.LocalTime;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PerfRepository {
 
@@ -59,15 +60,46 @@ public class PerfRepository {
 //      findById(randomId) != null;
         perf.setReservationId(randomId);
         perfs.add(perf);
-
-        System.out.println(perf);
   }
 
-    public List<Performance> getPerfs() {
-        return perfs;
+    /* 예매 내역 조회 방법
+    * 1. 전체 내역 조회
+    * 2. 예매 번호 및 예매자 이름으로 조회
+    * 3. 카테고리 조회(뮤지컬, 콘서트, 연극, 클래식-댄스, 아동-가족, 전시)
+    * 4. 제목으로 조회 */
+
+  public List<Performance> findAll(){
+      return new ArrayList<>(perfs);
+  }
+
+    public Performance findByIdAndName(int number, String name){
+
+        return perfs.stream()
+                .filter(performance -> performance.getReservationId() == number
+                        && performance.getCustomerName().equals(name))
+                .findFirst()
+                .orElse(null);
     }
 
-    public void setPerfs(List<Performance> perfs) {
-        this.perfs = perfs;
+    public List<Performance> findAllByCategory(Category category){
+
+        return perfs.stream()
+                .filter(performance -> performance.getCategory().equals(category))
+                .collect(Collectors.toList());
     }
+
+    public List<Performance> findByPerfTitle(String title){
+        String titleKeyword = title.trim().toLowerCase();
+
+        return perfs.stream()
+                .filter(performance -> performance.getPrefTitle().toLowerCase().contains(titleKeyword))
+                .collect(Collectors.toList());
+    }
+
+    public boolean deleteById(int id){
+
+      return perfs.removeIf(performance -> performance.getReservationId() == id);
+    }
+
 }
+

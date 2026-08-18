@@ -10,6 +10,7 @@ public class Application {
 
         PerfRepository pe = new PerfRepository();
 
-        System.out.println(pe.getPerfs());
+//        System.out.println(pe.getPerfs());
+        System.out.println(pe.findAll());
     }
 }
