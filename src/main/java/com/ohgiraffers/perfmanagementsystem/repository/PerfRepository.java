@@ -3,102 +3,137 @@ package com.ohgiraffers.perfmanagementsystem.repository;
 import com.ohgiraffers.perfmanagementsystem.model.Category;
 import com.ohgiraffers.perfmanagementsystem.model.Performance;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/* 공연 정보를 메모리(List)에 보관하고, 조회/등록/삭제 기능을 제공하는 저장소 클래스이다.*/
 public class PerfRepository {
 
-    List<Performance> perfs = new ArrayList<>();
+    // 등록된 공연 정보를 저장하는 내부 목록
+    private final List<Performance> performanceList = new ArrayList<>();
 
+    // 저장소가 생성될 때 기본으로 사용할 샘플 공연 데이터를 등록한다.
   public PerfRepository () {
-      save(new Performance("이익준", "뮤지컬 드라큘라 (Dracula : The Musical)", Category.MUSICAL,
-              LocalDate.parse("2026-09-13"), LocalTime.parse("13:00"), 14, 180000));
-      save(new Performance("안정원", "뮤지컬 <겨울왕국> 한국 초연 (FROZEN The Musical)", Category.MUSICAL,
-              LocalDate.parse("2026-10-03"), LocalTime.parse("19:00"), 8, 160000));
-      save(new Performance("김준완", "뮤지컬 <디어 에번 핸슨> (Musical Dear Evan Hansen)", Category.MUSICAL,
-              LocalDate.parse("2026-10-11"), LocalTime.parse("15:00"), 14, 144000));
-      save(new Performance("양석형", "마룬5 내한공연", Category.CONCERT,
-              LocalDate.parse("2027-01-27"), LocalTime.parse("20:00"), 13, 350000));
-      save(new Performance("채송화", "2026 KIM JAE JOONG CONCERT [THE WAVE] in Seoul", Category.CONCERT,
-              LocalDate.parse("2026-08-30"), LocalTime.parse("16:00"), 8, 165000));
-      save(new Performance("장겨울", "2026 YENA ENCORE LIVE 네모로부터 시작된, 잡힐 듯 말 듯 한 이세계 : 극장판", Category.CONCERT,
-              LocalDate.parse("2026-08-23"), LocalTime.parse("18:00"), 8, 154000));
-      save(new Performance("추민하", "죽은 시인의 사회", Category.PLAY,
-              LocalDate.parse("2026-08-30"), LocalTime.parse("14:00"), 8, 90000));
-      save(new Performance("도재학", "연극 <타인의 삶>", Category.PLAY,
-              LocalDate.parse("2026-09-01"), LocalTime.parse("19:30"), 14, 77000));
-      save(new Performance("용석민", "연극 <꽃, 별이 지나>", Category.PLAY,
-              LocalDate.parse("2026-09-23"), LocalTime.parse("16:00"), 14, 70000));
-      save(new Performance("허선빈", "2026 예술의전당 & 유니버설발레단 <백조의 호수>", Category.CLASSICAL_DANCE,
-              LocalDate.parse("2026-08-20"), LocalTime.parse("19:30"), 8, 120000));
-      save(new Performance("오이영", "조수미 세계무대 데뷔 40주년 기념 공연 [Continuum] - 안양", Category.CLASSICAL_DANCE,
-              LocalDate.parse("2026-09-11"), LocalTime.parse("19:30"), 7, 100000));
-      save(new Performance("표남경", "지브리 & 디즈니 오케스트라 콘서트 (10.4)", Category.CLASSICAL_DANCE,
-              LocalDate.parse("2026-10-04"), LocalTime.parse("19:30"), 8, 130000));
-      save(new Performance("김사비", "키자니아GO - 현대백화점 충청점", Category.KIDS_FAMILY,
-              LocalDate.parse("2026-09-09"), LocalTime.parse("11:00"), 4, 5000));
-      save(new Performance("엄재일", "시간을 파는 상점", Category.KIDS_FAMILY,
-              LocalDate.parse("2026-08-28"), LocalTime.parse("17:00"), 8, 45000));
-      save(new Performance("구도원", "AI세계에서 살아남기", Category.KIDS_FAMILY,
-              LocalDate.parse("2026-10-03"), LocalTime.parse("11:00"), 2, 66000));
-      save(new Performance("서정민", "스튜디오 지브리展 in Jeju", Category.EXHIBITION,
-              LocalDate.parse("2026-10-31"), LocalTime.parse("14:00"), 1, 22000));
-      save(new Performance("공기선", "2027 논산세계딸기산업엑스포", Category.EXHIBITION,
-              LocalDate.parse("2027-02-26"), LocalTime.parse("12:00"), 1, 9000));
-      save(new Performance("류재휘", "2026 서울카페쇼", Category.EXHIBITION,
-              LocalDate.parse("2026-11-11"), LocalTime.parse("10:00"), 1, 30000));
+      save(new Performance(583214, "뮤지컬 드라큘라 (Dracula : The Musical)", Category.MUSICAL,
+              "2026.07.10 ~ 2026.10.18", " LG아트센터 서울 LG SIGNATURE 홀", 165,
+              20, "14세", 180000));
+      save(new Performance(741926, "뮤지컬 <겨울왕국> 한국 초연 (FROZEN The Musical)", Category.MUSICAL,
+              "2026.08.13 ~ 2027.03.01", "샤롯데씨어터", 135,
+              20, "8세", 160000));
+      save(new Performance(315847, "뮤지컬 <디어 에반 핸슨> (Musical Dear Evan Hansen)", Category.MUSICAL,
+              "2026.08.01 ~ 2026.11.01", "충무아트센터 대극장",
+              160, 20, "14세", 160000));
+      save(new Performance(862451, "2026 YENA ENCORE LIVE 네모로부터 시작된, 잡힐 듯 말 듯 한 이세계 : 극장판",
+              Category.CONCERT, "2026.08.22 ~ 2026.08.23", "장충체육관",
+              120, 0, "8세", 154000));
+      save(new Performance(429673, "NCT DREAM 10TH ANNIVERSARY PARTY <THE SWEET DREAM HOTEL>",
+              Category.CONCERT, "2026.08.22 ~ 2026.08.23", "인스파이어 아레나",
+              180, 0, "7세", 121000));
+      save(new Performance(156928, "[서울] 2026 이승철 40주년 콘서트 [THE VOICE: LEE SEUNG CHUL]",
+              Category.CONCERT, "2026.12.04 ~ 2026.12.06", "KSPO DOME(올림픽체조경기장)",
+              120, 20, "8세", 198000));
+      save(new Performance(937514, "<죽은 시인의 사회>", Category.PLAY,
+              "2026.07.18 ~ 2026.09.13", "NOL 씨어터 대학로 우리카드홀",
+              125, 0, "8세", 120000));
+      save(new Performance(624381, "연극 <꽃, 별이 지나>", Category.PLAY,
+              "2026.06.16 ~ 2026.08.23", "NOL 서경스퀘어 스콘 1관",
+              100, 0, "14세", 70000));
+      save(new Performance(278645, "연극 <타인의 삶>", Category.PLAY,
+              "2026.07.01 ~ 2026.09.13", "LG아트센터 서울 U+ 스테이지",
+              110, 0, "14세", 77000));
+      save(new Performance(513792, "2026 예술의전당＆유니버설발레단 <백조의 호수>", Category.CLASSICAL_DANCE,
+              "2026.08.14 ~ 2026.08.23", "예술의전당 오페라극장",
+              150, 20, "8세", 140000));
+      save(new Performance(846237, "지브리＆디즈니 영화음악 FESTA", Category.CLASSICAL_DANCE,
+              "2026.08.30", "예술의전당 콘서트홀",
+              120, 15, "8세", 12000));
+      save(new Performance(391568, "손열음 피아노 리사이틀", Category.CLASSICAL_DANCE,
+              "2026.10.18", "예술의전당 콘서트홀",
+              90, 20, "8세", 120000));
+      save(new Performance(725143, "시간을 파는 상점", Category.KIDS_FAMILY,
+              "2024.03.15 ~ 오픈런", "파랑씨어터",
+              90, 0, "8세", 45000));
+      save(new Performance(468219, "키자니아GO - 현대백화점 충청점", Category.KIDS_FAMILY,
+              "2026.08.14 ~ 2026.09.06", "현대백화점 충청점 7층 문화홀",
+              13, 0, "36개월", 5000));
+      save(new Performance(193754, "[서울(영등포)] 2026 명작동화 가족뮤지컬 [백설공주]", Category.KIDS_FAMILY,
+              "2026.09.19 ~ 2026.09.20", "롯데백화점 영등포점 10F 문화홀",
+              55, 0, "24개월", 40000));
+      save(new Performance(657821, "앤디 워홀: 예술을 팔다 - 대구", Category.EXHIBITION,
+              "2026.07.03 ~ 2026.10.25", "대구문화예술회관 미술관",
+              60, 0, "전체관람가", 20000));
+      save(new Performance(284936, "[창원] 엘리자베스 랭그리터 - 매일이 휴가", Category.EXHIBITION,
+              "2026.07.16 ~ 2026.10.11", "3.15아트홀 전시장",
+              60, 0, "전체관람가", 10000));
+      save(new Performance(971362, "[상시관람] 진격의 거인展 FINAL", Category.EXHIBITION,
+              "2026.06.22 ~ 2026.11.01", "덕스(DUEX) 홍대",
+              60, 0, "8", 26000));
+
   }
 
-
-    private void save(Performance perf){
-
-      int randomId = (int)(Math.random()*1000)+1000;
-//      findById(randomId) != null;
-        perf.setReservationId(randomId);
-        perfs.add(perf);
+  // 전달받은 공연 정보를 내부 목록에 추가한다.
+  public void save(Performance performance){
+      performanceList.add(performance);
   }
 
-    /* 예매 내역 조회 방법
-    * 1. 전체 내역 조회
-    * 2. 예매 번호 및 예매자 이름으로 조회
-    * 3. 카테고리 조회(뮤지컬, 콘서트, 연극, 클래식-댄스, 아동-가족, 전시)
-    * 4. 제목으로 조회 */
+   /*
+    * 새로 등록할 공연의 6자리 공연번호(100000 ~ 999999)를 난수로 생성한다.
+    * 기존 공연번호와 중복될 경우 중복되지 않을 때까지 다시 생성한다.
+    */
+  private int generatePerformanceId() {
+      int performanceId;
+        do {
+            performanceId = (int)(Math.random() * 900000) + 100000;
+        } while (findById(performanceId) != null);
 
+        return performanceId;
+  }
+
+    /*
+     * 공연 데이터 조회 방법
+     * 1. 전체 공연 조회: findAll()
+     * 2. 공연 번호로 단일 조회: findById()
+     * 3. 카테고리별 공연 목록 조회: findAllByCategory()
+     * 4. 제목 키워드로 공연 목록 조회: findByTitle()
+     */
+
+  // 전체 공연 목록 - 원본 목록 보호를 위해 새로운 ArrayList로 복사해서 반환한다.
   public List<Performance> findAll(){
-      return new ArrayList<>(perfs);
+      return new ArrayList<>(performanceList);
   }
 
-    public Performance findByIdAndName(int number, String name){
+    // 공연 번호가 일치하는 공연을 조회하고, 없으면 null을 반환한다.
+    public Performance findById(int performanceId){
 
-        return perfs.stream()
-                .filter(performance -> performance.getReservationId() == number
-                        && performance.getCustomerName().equals(name))
+        return performanceList.stream()
+                .filter(performance -> performance.getPerformanceId() == performanceId)
                 .findFirst()
                 .orElse(null);
     }
 
+    // 전달받은 카테고리와 일치하는 공연 목록을 조회한다.
     public List<Performance> findAllByCategory(Category category){
 
-        return perfs.stream()
+        return performanceList.stream()
                 .filter(performance -> performance.getCategory().equals(category))
                 .collect(Collectors.toList());
     }
 
-    public List<Performance> findByPerfTitle(String title){
+    // 제목에 검색어가 포함된 공연 목록을 대소문자 구분 없이 조회한다.
+    public List<Performance> findByTitle(String title){
         String titleKeyword = title.trim().toLowerCase();
 
-        return perfs.stream()
-                .filter(performance -> performance.getPrefTitle().toLowerCase().contains(titleKeyword))
+        return performanceList.stream()
+                .filter(performance -> performance.getTitle().toLowerCase().contains(titleKeyword))
                 .collect(Collectors.toList());
     }
 
-    public boolean deleteById(int id){
+    // 공연 번호가 일치하는 공연을 삭제하고, 삭제 성공 여부를 반환한다.
+    public boolean deleteById(int performanceid){
 
-      return perfs.removeIf(performance -> performance.getReservationId() == id);
+      return performanceList.removeIf(performance -> performance.getPerformanceId() == performanceid);
     }
 
 }
