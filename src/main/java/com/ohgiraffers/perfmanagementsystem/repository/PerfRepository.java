@@ -82,7 +82,7 @@ public class PerfRepository {
     * 새로 등록할 공연의 6자리 공연번호(100000 ~ 999999)를 난수로 생성한다.
     * 기존 공연번호와 중복될 경우 중복되지 않을 때까지 다시 생성한다.
     */
-  private int generatePerformanceId() {
+  public int generatePerformanceId() {
       int performanceId;
         do {
             performanceId = (int)(Math.random() * 900000) + 100000;

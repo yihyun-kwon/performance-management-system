@@ -12,42 +12,42 @@ public class PerfView {
 
     // 메인 메뉴 선택
     public int inputMenuNumber() {
-    while(true) {
-        try {
-            displayMainMenu();
+        while (true) {
+            try {
+                displayMainMenu();
 
-            System.out.println();
-            System.out.print(" 사용할 메뉴 번호를 입력하세요 : ");
-            String menuNumber = scanner.nextLine();
+                System.out.println();
+                System.out.print(" 메뉴 번호를 입력하세요 : ");
+                String menuNumber = scanner.nextLine();
 
-            return Integer.parseInt(menuNumber);
+                return Integer.parseInt(menuNumber);
 
-        } catch (NumberFormatException e) {
-            System.out.println("숫자만 입력해주세요.");
+            } catch (NumberFormatException e) {
+                System.out.println("숫자만 입력해주세요.");
             }
         }
     }
 
     // 조회 메뉴 선택
     public int inputSearchMenuNumber() {
-      while(true) {
-          try {
-        displaySearchMenu();
+        while (true) {
+            try {
+                displaySearchMenu();
 
-        System.out.print(" 조회할 방법의 번호를 입력하세요 : ");
-        String searchMenuNumber = scanner.nextLine();
+                System.out.print(" 조회할 방법의 번호를 입력해주세요 : ");
+                String searchMenuNumber = scanner.nextLine();
 
-        return Integer.parseInt(searchMenuNumber);
+                return Integer.parseInt(searchMenuNumber);
 
-          } catch (NumberFormatException e) {
-              System.out.println("숫자만 입력해주세요.");
-          }
-    }
+            } catch (NumberFormatException e) {
+                System.out.println("숫자만 입력해주세요.");
+            }
+        }
     }
 
     // 카테고리 메뉴 선택
-    public int inputCategoryMenuNumber(){
-        while(true) {
+    public int inputCategoryMenuNumber() {
+        while (true) {
             try {
                 displayCategoryMenu();
 
@@ -56,14 +56,14 @@ public class PerfView {
 
                 return Integer.parseInt(categoryMenuNumber);
 
-                } catch (NumberFormatException e) {
+            } catch (NumberFormatException e) {
                 System.out.println("숫자만 입력해주세요.");
-             }
             }
         }
+    }
 
-     // 공연 제목으로 조회
-    public String inputTitleKeyword(){
+    // 공연 제목으로 조회
+    public String inputTitleKeyword() {
         System.out.print("조회할 제목을 입력하세요 : ");
         String titleKeyword = scanner.nextLine();
 
@@ -72,7 +72,7 @@ public class PerfView {
 
     // 공연 번호로 조회
     public int inputPerfId() {
-        while(true) {
+        while (true) {
             try {
                 System.out.print("조회할 공연 번호를 입력하세요 : ");
                 String performanceId = scanner.nextLine();
@@ -131,10 +131,10 @@ public class PerfView {
         System.out.println("공연 기간 : " + performance.getPeriod());
         System.out.println("공연장 : " + performance.getPlace());
 
-        if(performance.getIntermissionTime() > 0) {
+        if (performance.getIntermissionTime() > 0) {
             System.out.println("관람 시간 : " + performance.getRunningTime() + "분" +
                     "(인터미션 포함 " + performance.getIntermissionTime() + "분)");
-        }else if(performance.getIntermissionTime() <= 0) {
+        } else if (performance.getIntermissionTime() <= 0) {
             System.out.println("관람 시간: " + performance.getRunningTime() + "분");
         }
         System.out.println("관람 등급 : " + performance.getAgeRating());
@@ -146,14 +146,122 @@ public class PerfView {
         if (performanceList.isEmpty()) {
             System.out.println("조회 가능한 공연이 없습니다.");
             return;
-        }else
-        performanceList.forEach(performance -> displayPerformanceMenu(performance));
+        } else
+            performanceList.forEach(performance -> displayPerformanceMenu(performance));
     }
 
     // 카테고리 출력
     public void displayCategoryList(List<Category> categoryList) {
         categoryList.forEach(category -> System.out.println(category.getDescription()));
     }
+
+    public String inputPerfNewTitle() {
+        System.out.print("추가할 공연의 제목을 입력해주세요 : ");
+        String newTitle = scanner.nextLine();
+
+        return newTitle;
+    }
+
+    public int inputNewCategory() {
+        while (true) {
+            try {
+
+                System.out.print("추가할 카테고리의 번호를 입력해주세요 " +
+                        "[1. 뮤지컬, 2. 콘서트, 3. 연극, 4.클래식·무용, 5. 아동·가족, 6. 전시] : ");
+
+                String category = scanner.nextLine();
+
+                int categoryNumber = Integer.parseInt(category.trim());
+
+                if (categoryNumber >= 1 && categoryNumber <= 6) {
+                    return categoryNumber;
+                } else
+                    System.out.println("잘못 입력하셨습니다.");
+
+            } catch (NumberFormatException e) {
+                System.out.println("1 ~ 6 사이의 숫자를 입력해주세요.");
+            }
+        }
+    }
+
+    public String inputNewPeriod() {
+        System.out.print("추가할 공연의 기간을 입력해주세요 : ");
+        String newPeriod = scanner.nextLine();
+
+        return newPeriod;
+    }
+
+    public String inputNewPlace() {
+        System.out.print("추가할 공연의 장소를 입력해주세요 : ");
+        String newPlace = scanner.nextLine();
+
+        return newPlace;
+    }
+
+    public int inputNewRunningTime() {
+        while (true) {
+            try {
+                System.out.print("추가할 공연의 관람 시간을 입력해주세요 : ");
+                String newRunningTime = scanner.nextLine();
+
+                int runningTime = Integer.parseInt(newRunningTime.trim());
+
+                if (runningTime > 0 && runningTime != 0) {
+                    return runningTime;
+                } else
+                    System.out.println("관람 시간은 1 이상이어야 합니다.");
+
+            } catch (NumberFormatException e) {
+                System.out.println("숫자를 입력해주세요.");
+            }
+        }
+    }
+
+    public int inputNewIntermissionTime() {
+        while (true) {
+            try {
+                System.out.print("추가할 공연의 인터 미션을 입력해주세요 (없을 경우 0 입력) : ");
+                String newIntermissionTime = scanner.nextLine();
+
+                int intermissionTime = Integer.parseInt(newIntermissionTime.trim());
+
+                if(intermissionTime >= 0) {
+                    return intermissionTime;
+                } else
+                    System.out.println("인터미션은 음수일 수 없습니다.");
+
+            } catch (NumberFormatException e) {
+                System.out.println("0이상의 숫자를 입력해주세요.");
+            }
+        }
+    }
+
+    public String inputNewAgeRating() {
+        System.out.print("추가할 공연의 관람 등급(최소 관람 나이)을/(를) 입력해주세요 : ");
+        String newAgeRating = scanner.nextLine();
+
+        return newAgeRating;
+    }
+
+
+    public int inputNewPrice() {
+        while (true) {
+            try {
+            System.out.print("추가할 공연의 가격을 입력해주세요 : ");
+            String newPrice = scanner.nextLine();
+
+            int price = Integer.parseInt(newPrice.trim());
+
+            if (price > 0) {
+             return price;
+            } else
+                System.out.println("가격은 음수일 수 없습니다.");
+
+        } catch (NumberFormatException e) {
+                System.out.println("0이상의 숫자를 입력해주세요.");
+            }
+    }
+}
 
     public void displayError(String message){
         System.out.println(message);
