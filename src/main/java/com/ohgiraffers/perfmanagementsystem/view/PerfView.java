@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 public class PerfView {
 
+    // 프로그램 전체에서 사용자 입력을 받기 위해 하나의 Scanner 객체를 재사용한다.
     Scanner scanner = new Scanner(System.in);
 
     // 메인 메뉴 선택
@@ -155,6 +156,7 @@ public class PerfView {
         categoryList.forEach(category -> System.out.println(category.getDescription()));
     }
 
+    // 등록하거나 수정할 공연 제목을 입력받는다.
     public String inputPerfNewTitle() {
         System.out.print("추가할 공연의 제목을 입력해주세요 : ");
         String newTitle = scanner.nextLine();
@@ -162,12 +164,13 @@ public class PerfView {
         return newTitle;
     }
 
+    // 등록하거나 수정할 공연의 카테고리 번호를 입력받는다.
     public int inputNewCategory() {
         while (true) {
             try {
 
-                System.out.print("추가할 카테고리의 번호를 입력해주세요 " +
-                        "[1. 뮤지컬, 2. 콘서트, 3. 연극, 4.클래식·무용, 5. 아동·가족, 6. 전시] : ");
+                System.out.println("추가할 카테고리의 번호를 입력해주세요 ");
+                System.out.print("[1. 뮤지컬, 2. 콘서트, 3. 연극, 4.클래식·무용, 5. 아동·가족, 6. 전시] :");
 
                 String category = scanner.nextLine();
 
@@ -184,13 +187,16 @@ public class PerfView {
         }
     }
 
+    // 등록하거나 수정할 공연 기간을 입력받는다.
     public String inputNewPeriod() {
-        System.out.print("추가할 공연의 기간을 입력해주세요 : ");
+        System.out.println("추가할 공연의 기간을 입력해주세요");
+        System.out.print("(ex. 2026.07.28 ~ 2026.12.31) : ");
         String newPeriod = scanner.nextLine();
 
         return newPeriod;
     }
 
+    // 등록하거나 수정할 공연 장소를 입력받는다.
     public String inputNewPlace() {
         System.out.print("추가할 공연의 장소를 입력해주세요 : ");
         String newPlace = scanner.nextLine();
@@ -198,10 +204,11 @@ public class PerfView {
         return newPlace;
     }
 
+    // 등록하거나 수정할 관람 시간을 분 단위 정수로 입력받는다.
     public int inputNewRunningTime() {
         while (true) {
             try {
-                System.out.print("추가할 공연의 관람 시간을 입력해주세요 : ");
+                System.out.print("추가할 공연의 관람 시간을 입력해주세요(ex. 2시간일 시 120 숫자만 입력) : ");
                 String newRunningTime = scanner.nextLine();
 
                 int runningTime = Integer.parseInt(newRunningTime.trim());
@@ -212,11 +219,13 @@ public class PerfView {
                     System.out.println("관람 시간은 1 이상이어야 합니다.");
 
             } catch (NumberFormatException e) {
-                System.out.println("숫자를 입력해주세요.");
+                System.out.println("0 이하의 숫자 또는 문자가 입력되었습니다.");
+                System.out.println("1 이상의 숫자만 다시 입력해주세요.");
             }
         }
     }
 
+    // 등록하거나 수정할 인터미션 시간을 입력받으며, 없는 경우 0을 허용한다.
     public int inputNewIntermissionTime() {
         while (true) {
             try {
@@ -231,11 +240,12 @@ public class PerfView {
                     System.out.println("인터미션은 음수일 수 없습니다.");
 
             } catch (NumberFormatException e) {
-                System.out.println("0이상의 숫자를 입력해주세요.");
+                System.out.println("0이상의 숫자만 입력해주세요.");
             }
         }
     }
 
+    // 등록하거나 수정할 공연의 관람 등급을 입력받는다.
     public String inputNewAgeRating() {
         System.out.print("추가할 공연의 관람 등급(최소 관람 나이)을/(를) 입력해주세요 : ");
         String newAgeRating = scanner.nextLine();
@@ -244,6 +254,7 @@ public class PerfView {
     }
 
 
+    // 등록하거나 수정할 공연 가격을 정수로 입력받는다.
     public int inputNewPrice() {
         while (true) {
             try {
@@ -258,22 +269,62 @@ public class PerfView {
                 System.out.println("가격은 음수일 수 없습니다.");
 
         } catch (NumberFormatException e) {
-                System.out.println("0이상의 숫자를 입력해주세요.");
+                System.out.println("0이상의 숫자만 입력해주세요.");
             }
     }
 }
 
-    public void displayError(String message){
-        System.out.println(message);
+    // 수정할 공연 번호 입력
+    public int inputUpdatePerfId() {
+        while (true) {
+            try {
+                System.out.print("수정할 공연 번호를 입력하세요 : ");
+                String input = scanner.nextLine();
+
+                return Integer.parseInt(input.trim());
+
+            } catch (NumberFormatException e) {
+                System.out.println("공연 번호는 숫자만 입력해주세요.");
+            }
+        }
     }
 
+    // 삭제할 공연 번호 입력
+    public int inputDeletePerfId() {
+        while (true) {
+            try {
+                System.out.print("삭제할 공연 번호를 입력하세요 : ");
+                String input = scanner.nextLine();
+
+                return Integer.parseInt(input.trim());
+
+            } catch (NumberFormatException e) {
+                System.out.println("공연 번호는 숫자만 입력해주세요.");
+            }
+        }
+    }
+
+    // 사용자가 공연 삭제 여부를 확인한다.
+    public boolean inputDeleteConfirmation() {
+        while (true) {
+            System.out.print("정말 삭제하시겠습니까? (Y/N) : ");
+            String answer = scanner.nextLine().trim();
+
+            if (answer.equalsIgnoreCase("Y")) {
+                return true;
+            }
+            if (answer.equalsIgnoreCase("N")) {
+                return false;
+            }
+            System.out.println("Y 또는 N만 입력해주세요.");
+        }
+    }
+
+    // Controller에서 전달받은 안내 또는 오류 메시지를 출력한다.
     public void displayMessage(String message){
         System.out.println(message);
     }
 
-    public void displayPerf(Performance performance){
-        System.out.println(performance);
-    }
 
 
 }

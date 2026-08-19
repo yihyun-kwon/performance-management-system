@@ -130,10 +130,31 @@ public class PerfRepository {
                 .collect(Collectors.toList());
     }
 
-    // 공연 번호가 일치하는 공연을 삭제하고, 삭제 성공 여부를 반환한다.
-    public boolean deleteById(int performanceid){
+    // 공연 번호가 같은 기존 공연을 새로운 공연 정보로 교체한다.
+    public boolean update(Performance updatedPerformance) {
 
-      return performanceList.removeIf(performance -> performance.getPerformanceId() == performanceid);
+        // List의 위치를 나타내는 index를 하나씩 확인한다.
+        for (int index = 0; index < performanceList.size(); index++) {
+            Performance savedPerformance = performanceList.get(index);
+
+            // 기존 공연 번호와 수정할 공연 번호가 같은지 확인한다.
+            if (savedPerformance.getPerformanceId()
+                    == updatedPerformance.getPerformanceId()) {
+
+                // 같은 위치의 기존 공연을 수정된 공연으로 교체한다.
+                performanceList.set(index, updatedPerformance);
+                return true;
+            }
+        }
+
+        // 같은 공연 번호를 발견하지 못하면 수정 실패
+        return false;
+    }
+
+    // 공연 번호가 일치하는 공연을 삭제하고, 삭제 성공 여부를 반환한다.
+    public boolean deleteById(int performanceId){
+
+      return performanceList.removeIf(performance -> performance.getPerformanceId() == performanceId);
     }
 
 }

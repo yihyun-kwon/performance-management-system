@@ -12,12 +12,15 @@ public enum Category {
     KIDS_FAMILY("아동·가족"),        // 아동·가족
     EXHIBITION("전시");          // 전시
 
+    // 화면에 표시할 카테고리의 한글 이름을 저장한다.
     private final String description;
 
+    // 각 enum 상수에 전달된 한글 이름을 초기화한다.
     Category(String description) {
         this.description = description;
     }
 
+    // 카테고리의 한글 이름을 반환한다.
     public String getDescription() {
         return description;
     }
