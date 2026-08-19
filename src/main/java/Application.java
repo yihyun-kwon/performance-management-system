@@ -1,9 +1,6 @@
 import com.ohgiraffers.perfmanagementsystem.controller.PerfController;
-import com.ohgiraffers.perfmanagementsystem.model.Category;
 import com.ohgiraffers.perfmanagementsystem.repository.PerfRepository;
 import com.ohgiraffers.perfmanagementsystem.view.PerfView;
-
-import java.util.Scanner;
 
 public class Application {
     // 프로그램 실행에 필요한 Repository, View, Controller를 생성하고 Controller를 실행한다.

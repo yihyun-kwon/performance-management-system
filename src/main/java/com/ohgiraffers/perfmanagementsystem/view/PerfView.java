@@ -134,7 +134,7 @@ public class PerfView {
 
         if (performance.getIntermissionTime() > 0) {
             System.out.println("관람 시간 : " + performance.getRunningTime() + "분" +
-                    "(인터미션 포함 " + performance.getIntermissionTime() + "분)");
+                    "(인터미션 " + performance.getIntermissionTime() + "분 포함)");
         } else if (performance.getIntermissionTime() <= 0) {
             System.out.println("관람 시간: " + performance.getRunningTime() + "분");
         }
