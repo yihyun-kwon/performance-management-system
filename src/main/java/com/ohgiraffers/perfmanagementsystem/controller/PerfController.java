@@ -17,35 +17,122 @@ public class PerfController {
         this.perfView = perfView;
     }
 
-    // 전체 조회
-    public void findAllPerfList() {
-        perfView.displayPerformance(perfRepository.findAll());
+    public void run(){
+        boolean isRunning = true;
+
+        while (isRunning) {
+            int menuNumber = perfView.inputMenuNumber();
+
+            switch (menuNumber) {
+                case 1:
+                    handleSearchMenu();
+                break;
+            case 2:
+                // 공연 등록
+                break;
+
+            case 3:
+                // 공연 수정
+                break;
+            case 4:
+                // 공연 삭제
+                break;
+            case 9:
+                isRunning = false;
+                break;
+        }
+
+        }
     }
 
-    // 공연 번호로 조회
-    public void findPerfById(int performanceId) {
+    private void handleSearchMenu(){
+        boolean isSearchRunning = true;
+
+        while (isSearchRunning) {
+            int searchMenuNumber = perfView.inputSearchMenuNumber();
+
+            switch (searchMenuNumber) {
+                case 1:
+                    findAllPerformance();
+                    break;
+                case 2:
+                    categorySearchMenu();
+                    break;
+                case 3:
+                    findTitle();
+                    break;
+                case 4:
+                    findById();
+                    break;
+                case 9:
+                    isSearchRunning = false;
+                    break;
+            }
+                }
+    }
+
+    // 카테고리 조회 선택 메뉴
+    private void categorySearchMenu(){
+        boolean isCateegoryRunning = true;
+
+        while (isCateegoryRunning) {
+            int categoryMenuNumber = perfView.inputCategoryMenuNumber();
+
+            Category selectedCategory;
+
+            switch (categoryMenuNumber) {
+                case 1:
+                    selectedCategory = Category.MUSICAL;
+                    break;
+                case 2:
+                    selectedCategory = Category.CONCERT;
+                    break;
+                case 3:
+                    selectedCategory = Category.PLAY;
+                    break;
+                case 4:
+                    selectedCategory = Category.CLASSICAL_DANCE;
+                    break;
+                case 5:
+                    selectedCategory = Category.KIDS_FAMILY;
+                    break;
+                case 6:
+                    selectedCategory = Category.EXHIBITION;
+                    break;
+                case 9:
+                    return;
+                default:
+                    perfView.displayError("없는 번호입니다. 다시 입력해주세요.");
+                    continue;
+            }
+            findByCategory(selectedCategory);
+        }
+    }
+
+    private void findAllPerformance(){
+        List<Performance> allPerformances = perfRepository.findAll();
+        perfView.displayPerformanceList(allPerformances);
+    }
+
+    private void findByCategory(Category selectedCategory){
+        List<Performance> matchedPerformances = perfRepository.findAllByCategory(selectedCategory);
+        perfView.displayPerformanceList(matchedPerformances);
+    }
+    private void findTitle(){
+        String title = perfView.inputTitleKeyword();
+
+        List<Performance> perftitles = perfRepository.findByTitle(title);
+        perfView.displayPerformanceList(perftitles);
+    }
+    private void findById(){
+        int performanceId = perfView.inputPerfId();
 
         Performance performance = perfRepository.findById(performanceId);
 
-        if (performance == null) {
-            perfView.displayError("해당 번호의 공연을 찾을 수 없습니다.");
-            return;
-        }
-        perfView.displayPerf(performance);
-
-        }
-
-        // 제목 검색
-    public void searchPerf(String title) {
-
-        List<Performance> performances = perfRepository.findByTitle(title);
-
-        perfView.displayMessage(" " + title + " 검색 결과입니다.");
-        perfView.displayPerfList(performances);
+        if(performance != null){
+            perfView.displayPerformanceMenu(performance);
+        }else
+            perfView.displayError("입력하신 번호와 일치하는 공연이 없습니다.");
     }
-    public void findByCategory(Category category){
 
-        perfView.displayMessage(category.getDescription() + " 종류의 공연입니다.");
-        perfView.displayPerfList(perfRepository.findAllByCategory(category));
-    }
     }
