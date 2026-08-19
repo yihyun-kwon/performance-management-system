@@ -10,6 +10,7 @@ public class PerfView {
 
     Scanner scanner = new Scanner(System.in);
 
+    // 메인 메뉴 선택
     public int inputMenuNumber() {
     while(true) {
         try {
@@ -27,6 +28,7 @@ public class PerfView {
         }
     }
 
+    // 조회 메뉴 선택
     public int inputSearchMenuNumber() {
       while(true) {
           try {
@@ -42,6 +44,8 @@ public class PerfView {
           }
     }
     }
+
+    // 카테고리 메뉴 선택
     public int inputCategoryMenuNumber(){
         while(true) {
             try {
@@ -58,14 +62,17 @@ public class PerfView {
             }
         }
 
+     // 공연 제목으로 조회
     public String inputTitleKeyword(){
         System.out.print("조회할 제목을 입력하세요 : ");
         String titleKeyword = scanner.nextLine();
 
         return titleKeyword;
     }
+
+    // 공연 번호로 조회
     public int inputPerfId() {
-        while (true) {
+        while(true) {
             try {
                 System.out.print("조회할 공연 번호를 입력하세요 : ");
                 String performanceId = scanner.nextLine();
@@ -77,6 +84,8 @@ public class PerfView {
             }
         }
     }
+
+    // 메인 메뉴 출력
     public void displayMainMenu() {
         System.out.println();
         System.out.println("===== 공연 관리 시스템 =====");
@@ -87,7 +96,7 @@ public class PerfView {
         System.out.println("9. 프로그램 종료");
     }
 
-
+    // 조회 메뉴 출력
     public void displaySearchMenu() {
         System.out.println();
         System.out.println(" ===== 공연 조회 메뉴 =====");
@@ -98,6 +107,7 @@ public class PerfView {
         System.out.println("9. 이전 메뉴로 돌아가기");
     }
 
+    // 카테고리 메뉴 출력
     public void displayCategoryMenu() {
         System.out.println();
         System.out.println(" ===== 카테고리 선택 =====");
@@ -110,14 +120,14 @@ public class PerfView {
         System.out.println("9. 이전 메뉴로 돌아가기");
     }
 
-
+    // 공연 상세 정보 출력
     public void displayPerformanceMenu(Performance performance) {
 
         System.out.println();
         System.out.println("------- 공연 상세 정보 -------");
         System.out.println("공연 번호 : " + performance.getPerformanceId());
         System.out.println("공연 명 : " + performance.getTitle());
-        System.out.println("장르 : " + performance.getCategory());
+        System.out.println("카테고리 : " + performance.getCategory());
         System.out.println("공연 기간 : " + performance.getPeriod());
         System.out.println("공연장 : " + performance.getPlace());
 
@@ -131,6 +141,7 @@ public class PerfView {
         System.out.println("관람 가격 : " + performance.getPrice() + "원");
     }
 
+    // 전체 공연 출력
     public void displayPerformanceList(List<Performance> performanceList) {
         if (performanceList.isEmpty()) {
             System.out.println("조회 가능한 공연이 없습니다.");
@@ -139,10 +150,10 @@ public class PerfView {
         performanceList.forEach(performance -> displayPerformanceMenu(performance));
     }
 
+    // 카테고리 출력
     public void displayCategoryList(List<Category> categoryList) {
         categoryList.forEach(category -> System.out.println(category.getDescription()));
     }
-
 
     public void displayError(String message){
         System.out.println(message);
