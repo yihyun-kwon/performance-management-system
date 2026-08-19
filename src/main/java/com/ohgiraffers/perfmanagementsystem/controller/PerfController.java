@@ -259,17 +259,8 @@ public class PerfController {
          * 공연 번호는 변경하지 않는다.
          * 나머지 정보만 새로 입력받아 수정된 공연 객체를 만든다.
          */
-        Performance updatedPerformance = new Performance(
-                performanceId,
-                title,
-                selectedCategory,
-                period,
-                place,
-                runningTime,
-                intermissionTime,
-                ageRating,
-                price
-        );
+        Performance updatedPerformance = new Performance(performanceId, title, selectedCategory,
+                period, place, runningTime, intermissionTime, ageRating, price);
 
         // Repository에 기존 공연 교체를 요청한다.
         boolean isUpdated =
@@ -279,7 +270,7 @@ public class PerfController {
             perfView.displayMessage("공연 정보가 수정되었습니다.");
             perfView.displayPerformanceMenu(updatedPerformance);
         } else {
-            perfView.displayMessage("공연 수정에 실패했습니다.");
+            perfView.displayMessage("공연 정보 수정에 실패했습니다.");
         }
     }
 

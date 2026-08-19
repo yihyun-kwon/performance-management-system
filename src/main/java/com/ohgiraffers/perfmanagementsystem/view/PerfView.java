@@ -134,7 +134,7 @@ public class PerfView {
 
         if (performance.getIntermissionTime() > 0) {
             System.out.println("관람 시간 : " + performance.getRunningTime() + "분" +
-                    "(인터미션 포함 " + performance.getIntermissionTime() + "분)");
+                    "(인터미션 " + performance.getIntermissionTime() + "분 포함)");
         } else if (performance.getIntermissionTime() <= 0) {
             System.out.println("관람 시간: " + performance.getRunningTime() + "분");
         }
@@ -213,7 +213,7 @@ public class PerfView {
 
                 int runningTime = Integer.parseInt(newRunningTime.trim());
 
-                if (runningTime > 0 && runningTime != 0) {
+                if (runningTime > 0) {
                     return runningTime;
                 } else
                     System.out.println("관람 시간은 1 이상이어야 합니다.");
@@ -263,10 +263,10 @@ public class PerfView {
 
             int price = Integer.parseInt(newPrice.trim());
 
-            if (price > 0) {
+            if (price >= 0) {
              return price;
             } else
-                System.out.println("가격은 음수일 수 없습니다.");
+                System.out.println("가격은 0원이상(무료) 이어야 합니다.");
 
         } catch (NumberFormatException e) {
                 System.out.println("0이상의 숫자만 입력해주세요.");
