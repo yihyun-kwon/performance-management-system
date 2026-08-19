@@ -30,22 +30,20 @@ public class PerfController {
             switch (menuNumber) {
                 case 1:
                     handleSearchMenu();
-                break;
-            case 2:
-                // 공연 등록
-                break;
-
+                    break;
+                case 2:
+                    createPerformance();
+                    break;
             case 3:
-                // 공연 수정
-                break;
+                    updatePerformance();
+                    break;
             case 4:
-                // 공연 삭제
-                break;
+                     deletePerformance();
+                    break;
             case 9:
                 isRunning = false;
-                break;
+                    break;
         }
-
         }
     }
 
@@ -109,7 +107,7 @@ public class PerfController {
                 case 9:
                     return;
                 default:
-                    perfView.displayError("없는 번호입니다. 다시 입력해주세요.");
+                    perfView.displayMessage("없는 번호입니다. 다시 입력해주세요.");
                     return;
             }
             // 선택된 enum 값을 카테고리 조회 메서드에 전달한다.
@@ -143,7 +141,7 @@ public class PerfController {
         if(performance != null){
             perfView.displayPerformanceMenu(performance);
         }else
-            perfView.displayError("입력하신 번호와 일치하는 공연이 없습니다.");
+            perfView.displayMessage("입력하신 번호와 일치하는 공연이 없습니다.");
     }
     // 신규 공연 등록에 필요한 정보를 View에서 하나씩 입력받는다.
     private void createPerformance(){
@@ -162,7 +160,6 @@ public class PerfController {
                 selectedCategory = Category.MUSICAL;
                 break;
             case 2:
-                createPerformance();
                 selectedCategory = Category.CONCERT;
                 break;
             case 3:
@@ -178,7 +175,7 @@ public class PerfController {
                 selectedCategory = Category.EXHIBITION;
                 break;
             default:
-                perfView.displayError("잘못된 카테고리 번호입니다.");
+                perfView.displayMessage("잘못된 카테고리 번호입니다.");
                 return;
         }
 
@@ -197,4 +194,133 @@ public class PerfController {
         perfView.displayPerformanceMenu(newPerformance);
     }
 
+    // 공연 번호로 기존 공연을 찾아 새로운 정보로 수정한다.
+    private void updatePerformance() {
+
+        // 수정할 공연 번호를 View에서 입력받는다.
+        int performanceId = perfView.inputUpdatePerfId();
+
+        // 해당 번호의 공연이 실제로 존재하는지 조회한다.
+        Performance foundPerformance =
+                perfRepository.findById(performanceId);
+
+        // 공연이 존재하지 않으면 수정하지 않고 메서드를 종료한다.
+        if (foundPerformance == null) {
+            perfView.displayMessage(
+                    "입력하신 번호와 일치하는 공연이 없습니다."
+            );
+            return;
+        }
+
+        // 사용자가 어떤 공연을 수정하는지 기존 정보를 출력한다.
+        perfView.displayMessage("수정할 공연의 현재 정보입니다.");
+        perfView.displayPerformanceMenu(foundPerformance);
+
+        // 수정할 새로운 공연 정보를 View에서 입력받는다.
+        String title = perfView.inputPerfNewTitle();
+        int categoryNumber = perfView.inputNewCategory();
+
+        // 입력한 카테고리 번호를 Category enum으로 변환한다.
+        Category selectedCategory;
+
+        switch (categoryNumber) {
+            case 1:
+                selectedCategory = Category.MUSICAL;
+                break;
+            case 2:
+                selectedCategory = Category.CONCERT;
+                break;
+            case 3:
+                selectedCategory = Category.PLAY;
+                break;
+            case 4:
+                selectedCategory = Category.CLASSICAL_DANCE;
+                break;
+            case 5:
+                selectedCategory = Category.KIDS_FAMILY;
+                break;
+            case 6:
+                selectedCategory = Category.EXHIBITION;
+                break;
+            default:
+                perfView.displayMessage("잘못된 카테고리 번호입니다.");
+                return;
+        }
+
+        String period = perfView.inputNewPeriod();
+        String place = perfView.inputNewPlace();
+        int runningTime = perfView.inputNewRunningTime();
+        int intermissionTime =
+                perfView.inputNewIntermissionTime();
+        String ageRating = perfView.inputNewAgeRating();
+        int price = perfView.inputNewPrice();
+
+        /*
+         * 공연 번호는 변경하지 않는다.
+         * 나머지 정보만 새로 입력받아 수정된 공연 객체를 만든다.
+         */
+        Performance updatedPerformance = new Performance(
+                performanceId,
+                title,
+                selectedCategory,
+                period,
+                place,
+                runningTime,
+                intermissionTime,
+                ageRating,
+                price
+        );
+
+        // Repository에 기존 공연 교체를 요청한다.
+        boolean isUpdated =
+                perfRepository.update(updatedPerformance);
+
+        if (isUpdated) {
+            perfView.displayMessage("공연 정보가 수정되었습니다.");
+            perfView.displayPerformanceMenu(updatedPerformance);
+        } else {
+            perfView.displayMessage("공연 수정에 실패했습니다.");
+        }
+    }
+
+    // 공연 번호로 공연을 찾아 삭제한다.
+    private void deletePerformance() {
+
+        // 삭제할 공연 번호를 View에서 입력받는다.
+        int performanceId = perfView.inputDeletePerfId();
+
+        // 삭제 전에 해당 공연이 존재하는지 확인한다.
+        Performance foundPerformance =
+                perfRepository.findById(performanceId);
+
+        if (foundPerformance == null) {
+            perfView.displayMessage(
+                    "입력하신 번호와 일치하는 공연이 없습니다."
+            );
+            return;
+        }
+
+        // 삭제할 공연 정보를 사용자에게 보여준다.
+        perfView.displayMessage("삭제할 공연 정보입니다.");
+        perfView.displayPerformanceMenu(foundPerformance);
+
+        // 실제 삭제 전에 한 번 더 확인한다.
+        boolean confirmed =
+                perfView.inputDeleteConfirmation();
+
+        if (!confirmed) {
+            perfView.displayMessage("공연 삭제를 취소했습니다.");
+            return;
+        }
+
+        // Repository에 공연 삭제를 요청한다.
+        boolean isDeleted =
+                perfRepository.deleteById(performanceId);
+
+        if (isDeleted) {
+            perfView.displayMessage("공연이 삭제되었습니다.");
+        } else {
+            perfView.displayMessage("공연 삭제에 실패했습니다.");
+        }
+    }
     }
