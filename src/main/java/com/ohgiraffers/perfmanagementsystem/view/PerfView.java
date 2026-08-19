@@ -11,32 +11,52 @@ public class PerfView {
     Scanner scanner = new Scanner(System.in);
 
     public int inputMenuNumber() {
-        displayMainMenu();
+    while(true) {
+        try {
+            displayMainMenu();
 
-        System.out.print(" 사용할 메뉴 번호를 입력하세요 : ");
-        int menuNumber = scanner.nextInt();
+            System.out.println();
+            System.out.print(" 사용할 메뉴 번호를 입력하세요 : ");
+            String menuNumber = scanner.nextLine();
 
-        return menuNumber;
+            return Integer.parseInt(menuNumber);
 
+        } catch (NumberFormatException e) {
+            System.out.println("숫자만 입력해주세요.");
+            }
+        }
     }
 
     public int inputSearchMenuNumber() {
+      while(true) {
+          try {
         displaySearchMenu();
 
         System.out.print(" 조회할 방법의 번호를 입력하세요 : ");
-        int searchMenuNumber = scanner.nextInt();
+        String searchMenuNumber = scanner.nextLine();
 
-        return searchMenuNumber;
+        return Integer.parseInt(searchMenuNumber);
+
+          } catch (NumberFormatException e) {
+              System.out.println("숫자만 입력해주세요.");
+          }
     }
-
+    }
     public int inputCategoryMenuNumber(){
-        displayCategoryMenu();
+        while(true) {
+            try {
+                displayCategoryMenu();
 
-        System.out.println("조회할 카테고리의 번호를 입력하세요 : ");
-        int categoryMenuNumber = scanner.nextInt();
+                System.out.println("조회할 카테고리의 번호를 입력하세요 : ");
+                String categoryMenuNumber = scanner.nextLine();
 
-        return categoryMenuNumber;
-    }
+                return Integer.parseInt(categoryMenuNumber);
+
+                } catch (NumberFormatException e) {
+                System.out.println("숫자만 입력해주세요.");
+             }
+            }
+        }
 
     public String inputTitleKeyword(){
         System.out.print("조회할 제목을 입력하세요 : ");
@@ -44,13 +64,19 @@ public class PerfView {
 
         return titleKeyword;
     }
-    public int inputPerfId(){
-        System.out.print("조회할 공연 번호를 입력하세요 : ");
-        int performanceId = scanner.nextInt();
+    public int inputPerfId() {
+        while (true) {
+            try {
+                System.out.print("조회할 공연 번호를 입력하세요 : ");
+                String performanceId = scanner.nextLine();
 
-        return performanceId;
+                return Integer.parseInt(performanceId);
+
+            } catch (NumberFormatException e) {
+                System.out.println("숫자만 입력해주세요.");
+            }
+        }
     }
-
     public void displayMainMenu() {
         System.out.println();
         System.out.println("===== 공연 관리 시스템 =====");
@@ -75,16 +101,18 @@ public class PerfView {
     public void displayCategoryMenu() {
         System.out.println();
         System.out.println(" ===== 카테고리 선택 =====");
-        System.out.println("1. 뮤지컬 : ");
-        System.out.println("2. 콘서트 : ");
-        System.out.println("3. 연극 : ");
-        System.out.println("4. 클래식·무용 : ");
-        System.out.println("5. 아동·가족 : ");
-        System.out.println("6. 전시 : ");
+        System.out.println("1. 뮤지컬 ");
+        System.out.println("2. 콘서트 ");
+        System.out.println("3. 연극 ");
+        System.out.println("4. 클래식·무용 ");
+        System.out.println("5. 아동·가족 ");
+        System.out.println("6. 전시 ");
+        System.out.println("9. 이전 메뉴로 돌아가기");
     }
 
 
     public void displayPerformanceMenu(Performance performance) {
+
         System.out.println();
         System.out.println("------- 공연 상세 정보 -------");
         System.out.println("공연 번호 : " + performance.getPerformanceId());
@@ -92,9 +120,15 @@ public class PerfView {
         System.out.println("장르 : " + performance.getCategory());
         System.out.println("공연 기간 : " + performance.getPeriod());
         System.out.println("공연장 : " + performance.getPlace());
-        System.out.println(performance.getRunningTime());
+
+        if(performance.getIntermissionTime() > 0) {
+            System.out.println("관람 시간 : " + performance.getRunningTime() + "분" +
+                    "(인터미션 포함 " + performance.getIntermissionTime() + "분)");
+        }else if(performance.getIntermissionTime() <= 0) {
+            System.out.println("관람 시간: " + performance.getRunningTime() + "분");
+        }
         System.out.println("관람 등급 : " + performance.getAgeRating());
-        System.out.println("관람 가격 : " + performance.getPlace());
+        System.out.println("관람 가격 : " + performance.getPrice() + "원");
     }
 
     public void displayPerformanceList(List<Performance> performanceList) {

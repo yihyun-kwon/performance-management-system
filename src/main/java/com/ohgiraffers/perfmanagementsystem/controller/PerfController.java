@@ -57,7 +57,7 @@ public class PerfController {
                     break;
                 case 2:
                     categorySearchMenu();
-                    break;
+                    return;
                 case 3:
                     findTitle();
                     break;
@@ -73,9 +73,6 @@ public class PerfController {
 
     // 카테고리 조회 선택 메뉴
     private void categorySearchMenu(){
-        boolean isCateegoryRunning = true;
-
-        while (isCateegoryRunning) {
             int categoryMenuNumber = perfView.inputCategoryMenuNumber();
 
             Category selectedCategory;
@@ -103,11 +100,11 @@ public class PerfController {
                     return;
                 default:
                     perfView.displayError("없는 번호입니다. 다시 입력해주세요.");
-                    continue;
+                    return;
             }
             findByCategory(selectedCategory);
         }
-    }
+
 
     private void findAllPerformance(){
         List<Performance> allPerformances = perfRepository.findAll();

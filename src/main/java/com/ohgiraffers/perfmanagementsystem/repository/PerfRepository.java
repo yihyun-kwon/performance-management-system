@@ -69,7 +69,7 @@ public class PerfRepository {
               60, 0, "전체관람가", 10000));
       save(new Performance(971362, "[상시관람] 진격의 거인展 FINAL", Category.EXHIBITION,
               "2026.06.22 ~ 2026.11.01", "덕스(DUEX) 홍대",
-              60, 0, "8", 26000));
+              60, 0, "8세", 26000));
 
   }
 
